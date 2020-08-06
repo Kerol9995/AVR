@@ -11,6 +11,7 @@ float n=0;
 
 int main(void)
 {
+	uint16_t Cppm=0;
 	adc_value=0;
 // 	USART_ini(MYUBRR);
 	mg12232_init();
@@ -83,9 +84,10 @@ int main(void)
 // 			sprintf(str1,"Raw t: 0x%04X; t: %c%.3f\r\n", raw_temper, c, t);
 // 			for (a=0;a<strlen(str1);a++)USART_Transmit(str1[a]);
 		}
-		n=(float)adc_value*5000/1024;
+//		n=(float)adc_value*5000/1024;
+		Cppm=(adc_value-82)*3125;
 		dht11_start();
-		sprintf(str1,"T=%d H=%d ADC=%.fmV\r\n", dht11_temp()+3, dht11_humid(), n);
+		sprintf(str1,"T=%d H=%d ADC=%.fmV\r\n", dht11_temp()+3, dht11_humid(), Cppm);
 		mg12232_string_write(str1);
 		
 		
