@@ -16,6 +16,7 @@
 #include "usart.h"
 #include "adc.h"
 
+
 unsigned int adc_value;
 
 #endif

@@ -35,6 +35,6 @@ void command_write(uint8_t data, uint8_t chip);
 void clear_lcd(void);
 void simbol_write(uint8_t simbol[], uint8_t chip);
 void number_write(char t, uint8_t chip);
-void mg12232_string_write(char str[]);
+void mg12232_string_write(char str[], uint8_t page);
 
 #endif /* MG12232_H_ */

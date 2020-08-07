@@ -23,6 +23,7 @@ void mg12232_init(void){
 }
 
 void command_write(uint8_t data, uint8_t chip){
+	cli();
 	DATA_DDR=0xff;
 	DATA_PORT=data;
 	A0_PORT &=~(1<<A0_PIN_NUM);
@@ -31,9 +32,11 @@ void command_write(uint8_t data, uint8_t chip){
 	CS1_PORT &=~((1<<CS1_PIN_NUM)|(1<<CS2_PIN_NUM));
 	DATA_PORT=0;
 	DATA_DDR=0;
+	sei();
 }
 
 void data_write(uint8_t data, uint8_t chip){
+	cli();
 	DATA_DDR=0xff;
 	DATA_PORT=data;
 	A0_PORT |=(1<<A0_PIN_NUM);
@@ -42,6 +45,7 @@ void data_write(uint8_t data, uint8_t chip){
 	CS1_PORT &= ~((1 << CS1_PIN_NUM)|(1 << CS2_PIN_NUM));
 	DATA_PORT=0;
 	DATA_DDR=0;
+	sei();
 }
 void clear_lcd(void){
 	for (uint8_t page = 0; page < 4; page++) {
@@ -58,24 +62,28 @@ void simbol_write(unsigned char simbol[], uint8_t chip){
 		data_write(simbol[a],chip);
 	}
 }
-void mg12232_string_write(char str[]){
+void mg12232_string_write(char str[], uint8_t page){
 	uint8_t a;
 	uint8_t chip;
 	for (a=0;a<strlen(str);a++){		
 		if (a==0){
-			command_write(CMD_PAGE+0,3);
+			if (page>3) page = 0;
+			command_write(CMD_PAGE+page,3);
 			command_write(CMD_COLUMN+1,3);
 		}
 		if (a==20){
-			command_write(CMD_PAGE+1,3);
+			if (page+1>3) page = 0;
+			command_write(CMD_PAGE+page,3);
 			command_write(CMD_COLUMN+1,3);
 		}
 		if (a==40){
-			command_write(CMD_PAGE+2,3);
+			if (page+2>3) page = 0;
+			command_write(CMD_PAGE+page,3);
 			command_write(CMD_COLUMN+1,3);
 		}
 		if (a==60){
-			command_write(CMD_PAGE+3,3);
+			if (page+3>3) page = 0;
+			command_write(CMD_PAGE+page,3);
 			command_write(CMD_COLUMN+1,3);
 		}
 		if ((a>=10 && a<=19)||(a>=30 && a<=39)||(a>=50 && a<=59)||(a>=70 && a<=79))chip=2;
