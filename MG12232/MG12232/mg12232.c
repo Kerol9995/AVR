@@ -4,13 +4,13 @@
 void mg12232_init(void){
 	DATA_DDR= 0xff;
 	DATA_PORT=0xff;
-	DDRB=0x07;
-	PORTB=0x07;
-	PORTB=0x04;
-	PORTB=0x07;
-	PORTB=0x04;
-	PORTB=0x07;
-	PORTB=0x00;
+	DDRB|=0x07;
+	PORTB|=0x07;
+	PORTB|=0x04;
+	PORTB|=0x07;
+	PORTB|=0x04;
+	PORTB|=0x07;
+	PORTB|=0x00;
 	command_write(CMD_RESET,3);
 	command_write(CMD_DUTY_CYCLE_32,3);
 	command_write(CMD_STATIC_DRIVE_OFF,3);
@@ -73,17 +73,17 @@ void mg12232_string_write(char str[], uint8_t page){
 		}
 		if (a==20){
 			if (page+1>3) page = 0;
-			command_write(CMD_PAGE+page,3);
+			command_write(CMD_PAGE+page+1,3);
 			command_write(CMD_COLUMN+1,3);
 		}
 		if (a==40){
 			if (page+2>3) page = 0;
-			command_write(CMD_PAGE+page,3);
+			command_write(CMD_PAGE+page+2,3);
 			command_write(CMD_COLUMN+1,3);
 		}
 		if (a==60){
 			if (page+3>3) page = 0;
-			command_write(CMD_PAGE+page,3);
+			command_write(CMD_PAGE+page+3,3);
 			command_write(CMD_COLUMN+1,3);
 		}
 		if ((a>=10 && a<=19)||(a>=30 && a<=39)||(a>=50 && a<=59)||(a>=70 && a<=79))chip=2;

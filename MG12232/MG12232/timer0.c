@@ -1,0 +1,15 @@
+#include "timer0.h"
+
+void timer0_init(){
+	TCCR0A = 0b00000000;//COM0A1 COM0A0 COM0B1 COM0B0 – – WGM01 WGM00
+	TCCR0B = 0b00000101;//FOC0A FOC0B – – WGM02 CS02 CS01 CS00
+	TIMSK0 = 0b00000001;//– – – – – OCIE0B OCIE0A TOIE0
+	
+// 	ICR0=3125;
+// 	OCR0A=1022;
+// 	OCR0B=511;
+// 	DDRB |=(1<<1)|(1<<2);
+// 	PORTB &= ~((1<<1)|(1<<2));
+// 	TCNT0=0;
+	// 	TIMSK0=(1<<OCIE0A);
+}

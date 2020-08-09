@@ -4,6 +4,8 @@
 
 adc.c
 
+timer0.c
+
 dht11.c
 
 ds18b20.c

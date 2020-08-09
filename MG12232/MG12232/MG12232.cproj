@@ -156,6 +156,9 @@
     <Compile Include="adc.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="timer0.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="dht11.c">
       <SubType>compile</SubType>
     </Compile>
@@ -178,6 +181,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="mg12232.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="timer0.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="usart.c">

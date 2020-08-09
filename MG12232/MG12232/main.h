@@ -15,7 +15,7 @@
 #include "ds18b20.h"
 #include "usart.h"
 #include "adc.h"
-
+#include "timer0.h"
 
 unsigned int adc_value;
 
