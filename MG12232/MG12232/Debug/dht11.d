@@ -19,7 +19,8 @@ dht11.d dht11.o: .././dht11.c .././dht11.h .././main.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
- .././mg12232.h .././ds18b20.h .././usart.h .././adc.h .././timer0.h
+ .././mg12232.h .././ds18b20.h .././usart.h .././adc.h .././timer0.h \
+ .././usartsoft.h
 
 .././dht11.h:
 
@@ -74,3 +75,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././adc.h:
 
 .././timer0.h:
+
+.././usartsoft.h:

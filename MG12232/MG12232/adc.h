@@ -3,6 +3,7 @@
 
 #include "main.h"
 
-void ADC_Init(void);
+void adc_init(void);
+unsigned int adc_convert (void);
 
 #endif /* ADC_H_ */

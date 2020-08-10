@@ -16,3 +16,5 @@ mg12232.c
 
 usart.c
 
+usartsoft.c
+

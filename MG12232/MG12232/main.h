@@ -16,6 +16,7 @@
 #include "usart.h"
 #include "adc.h"
 #include "timer0.h"
+#include "usartsoft.h"
 
 unsigned int adc_value;
 

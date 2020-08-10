@@ -2,9 +2,9 @@
 
 
 void mg12232_init(void){
-	DATA_DDR= 0xff;
-	DATA_PORT=0xff;
-	DDRB|=0x07;
+	DATA_DDR |= 0xff;
+	DATA_PORT|=0xff;
+	DDRB |=0x07;
 	PORTB|=0x07;
 	PORTB|=0x04;
 	PORTB|=0x07;

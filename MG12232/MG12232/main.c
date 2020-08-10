@@ -10,6 +10,8 @@ char str1[64];
 // float n=0;
 float Cppm=0;
 unsigned int b;
+uint8_t CO2_data[8];
+uint8_t co2_d;
 
 ISR(TIMER0_OVF_vect){
 	b++;
@@ -23,7 +25,9 @@ int main(void)
 // 	USART_ini(MYUBRR);
 	timer0_init();
 	mg12232_init();
-	ADC_Init();
+	adc_init();
+	usartsoft_init();
+	
 	uint16_t raw_temper;
 	uint16_t temper_H;
 // 	uint16_t temper_L;
@@ -106,16 +110,21 @@ int main(void)
 // 				sprintf(str1,"Raw t: 0x%04X; t: %c%.3f\r\n", raw_temper, c, t);
 // 				for (a=0;a<strlen(str1);a++)USART_Transmit(str1[a]);
 			}			
-		}	
+		}
 		
+		adc_value=adc_convert();
 //		n=(float)adc_value*5000/1024;
 		Cppm=(adc_value-82)*15.167236;			//4.854*3.125
 		dht11_start();
 		sprintf(str1,"T=%d  H=%d ADC=%.f tim=%d\r\n", dht11_temp()+3, dht11_humid(), Cppm, b);
 // 		for (a=0;a<strlen(str1);a++)USART_Transmit(str1[a]);
 		mg12232_string_write(str1, 0);
-		
-		
+		sprintf(str1,"%x%x%x%x%x%x%x%x%x", 0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79);
+		for (a=0;a<strlen(str1);a++)usartsoft_transmit(str1[a]);
+		for (i=0;i<8;i++)usartsoft_recieve(&CO2_data[i]);
+		printf(str1," %x %x %x %x %x %x %x %x %x ", CO2_data[0], CO2_data[1], CO2_data[2], CO2_data[3], CO2_data[4], CO2_data[5], CO2_data[6], CO2_data[7], CO2_data[8]);
+		mg12232_string_write(str1, 2);
+						
 // 		for (a=0;a<strlen(str1);a++)number_write(str1[a],1);
 // 		sprintf(str1,"%d %x Hello",12,12);
 // 		string_write(str1);
