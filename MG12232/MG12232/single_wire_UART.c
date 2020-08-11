@@ -31,8 +31,8 @@
  * $Date: 2007-03-29 13:17:03 +0200 (to, 29 mar 2007) $  \n
  ******************************************************************************/
 
-#include <ioavr.h>              //Device specific register/Bit definitions.
-#include <inavr.h>              //The __enable_interrupt() intrinsic.
+// #include <ioavr.h>              //Device specific register/Bit definitions.
+// #include <inavr.h>              //The __enable_interrupt() intrinsic.
 #include "stdint.h"             //Integer types.
 #include "single_wire_UART.h"   //UART settings and device spesific.
 
@@ -171,7 +171,7 @@ uint8_t SW_UART_Receive(void)
  *  the first data bit to be received.
  */
 #pragma vector=SW_UART_EXTERNAL_INTERRUPT_VECTOR
-__interrupt void External_SW_UART_ISR(void)
+void External_SW_UART_ISR(void)
 {
   //Make sure bit is low.
   if(!READ_UART_PIN())
@@ -201,7 +201,7 @@ __interrupt void External_SW_UART_ISR(void)
  *          so an interrupt is not missed.
  */
 #pragma vector=SW_UART_TIMER_COMPARE_INTERRUPT_VECTOR
-__interrupt void Timer_SW_UART_ISR(void)
+void Timer_SW_UART_ISR(void)
 {
   SET_UART_TIMER_COMPARE_WAIT_ONE(); //Set timer compare value to trigger the ISR once every bit period.
 

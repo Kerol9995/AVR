@@ -20,7 +20,7 @@ timer0.d timer0.o: .././timer0.c .././timer0.h .././main.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  .././mg12232.h .././dht11.h .././ds18b20.h .././usart.h .././adc.h \
- .././usartsoft.h
+ .././usartsoft.h .././single_wire_UART.h
 
 .././timer0.h:
 
@@ -77,3 +77,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././adc.h:
 
 .././usartsoft.h:
+
+.././single_wire_UART.h:

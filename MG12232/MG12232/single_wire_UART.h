@@ -25,7 +25,7 @@
  * $RCSfile: single_wire_UART.h,v $
  * $Date: 2007-02-08 14:13:02 +0100 (to, 08 feb 2007) $  \n
  ******************************************************************************/
-
+#include "main.h"
 #include "stdint.h"     //Integer types.
 
 #ifndef FALSE
@@ -43,21 +43,21 @@
 // Please note that the UART consumes about all CPU resources when WAIT_ONE*PRESCALER<100.
 
 /* Communication parameters. The WAIT_ONE definiton has to be changed according to equation 2-1 in the application note. */
-#define WAIT_ONE             103      //!< Half bit period compare setting. See the application note for calculation of this value. Make sure timer prescaler is set to the intended value.
-#define PRESCALER             1       //!< Prescaler setting. Must be set according to the baud rate setting.
+#define WAIT_ONE             207      //!< Half bit period compare setting. See the application note for calculation of this value. Make sure timer prescaler is set to the intended value.
+#define PRESCALER             8       //!< Prescaler setting. Must be set according to the baud rate setting.
 
 /* Port and pin settings. */
-#define SW_UART_PIN_NUMBER    2       //!< Set pin number for communication.
-#define SW_UART_PORT          PORTD   //!< Set port for communication.
-#define SW_UART_PIN           PIND    //!< Set pin for communication.
-#define SW_UART_DDR           DDRD    //!< Data direction register. Not available for high voltage ports.
+#define SW_UART_PIN_NUMBER    5       //!< Set pin number for communication.
+#define SW_UART_PORT          PORTB   //!< Set port for communication.
+#define SW_UART_PIN           PINB    //!< Set pin for communication.
+#define SW_UART_DDR           DDRB    //!< Data direction register. Not available for high voltage ports.
 
 #define TRANSMIT_DELAY        70    //!< Cycles from the start bit is sent (from UART_transmit) to the timer is started plus cycles in the timer interrupt before first data bit is sent.
 #define RECEIVE_DELAY         76    //!< Cycles from the start bit is detected to the timer is started plus cycles in timer interrupt before first data bit is received.
 
 #define WAIT_ONEHALF          (WAIT_ONE + WAIT_ONE/2)
 
-#define TIMER_PRESCALER_CONTROL_REGISTER    TCCR0 //!< Define the timer control register according to the timer used for the UART.
+#define TIMER_PRESCALER_CONTROL_REGISTER    TCCR0A //!< Define the timer control register according to the timer used for the UART.
 #if (PRESCALER == 1)
   #define START_UART_TIMER()     (TIMER_PRESCALER_CONTROL_REGISTER |= (1<<CS00))  //Needs to be change if a different timer is used. Please refer to datasheet.
   #define STOP_UART_TIMER()      (TIMER_PRESCALER_CONTROL_REGISTER &= ~(1<<CS00))
@@ -68,13 +68,13 @@
   #error PRESCALER must be set to 1 or 8
 #endif
 
-#if ( ((WAIT_ONEHALF-(RECEIVE_DELAY/PRESCALER)) > 255) || ((WAIT_ONE) > 255))
-  #error WAIT_ONE is set too high. Try to increase prescaler or use a higher baud rate.
-#endif
-
-#if ( (WAIT_ONE) < (100/PRESCALER))
-  #error A too high baud rate is used. Please check the PRESCALER and WAIT_ONE setting.
-#endif
+// #if ( ((WAIT_ONEHALF-(RECEIVE_DELAY/PRESCALER)) > 255) || ((WAIT_ONE) > 255))
+//   #error WAIT_ONE is set too high. Try to increase prescaler or use a higher baud rate.
+// #endif
+// 
+// #if ( (WAIT_ONE) < (100/PRESCALER))
+//   #error A too high baud rate is used. Please check the PRESCALER and WAIT_ONE setting.
+// #endif
 
 /* Pin macros.  */
 #define INITIALIZE_UART_PIN()   ( SW_UART_PORT &= ~(1<<SW_UART_PIN_NUMBER) )    //!< Clear port.
@@ -92,20 +92,20 @@
 #define SW_UART_TIMER_COMPARE_INTERRUPT_VECTOR  TIMER0_COMP_vect      //!< UART compare interrupt vector.
 
 /* Timer macros. These are device dependent. */
-#define CLEAR_UART_TIMER_ON_COMPARE_MATCH()     (TCCR0 |= (1<<WGM01))                             //!< Set timer control register to clear timer on compare match (CTC).
-#define SET_UART_TIMER_COMPARE_WAIT_ONE()       (OCR0 = WAIT_ONE)                                 //!< Sets the timer compare register to one period.
-#define SET_UART_TIMER_COMPARE_START_TRANSMIT() (OCR0 = WAIT_ONE - (TRANSMIT_DELAY/PRESCALER))    //!< Sets the timer compare register to the correct value when a transmission is started.
-#define SET_UART_TIMER_COMPARE_START_RECEIVE()  (OCR0 = WAIT_ONEHALF - (RECEIVE_DELAY/PRESCALER)) //!< Sets the timer compare register to the correct value when a reception is started.
+#define CLEAR_UART_TIMER_ON_COMPARE_MATCH()     (TCCR0A |= (1<<WGM01))                             //!< Set timer control register to clear timer on compare match (CTC).
+#define SET_UART_TIMER_COMPARE_WAIT_ONE()       (OCR0A = WAIT_ONE)                                 //!< Sets the timer compare register to one period.
+#define SET_UART_TIMER_COMPARE_START_TRANSMIT() (OCR0A = WAIT_ONE - (TRANSMIT_DELAY/PRESCALER))    //!< Sets the timer compare register to the correct value when a transmission is started.
+#define SET_UART_TIMER_COMPARE_START_RECEIVE()  (OCR0A = WAIT_ONEHALF - (RECEIVE_DELAY/PRESCALER)) //!< Sets the timer compare register to the correct value when a reception is started.
 #define CLEAR_UART_TIMER()                      (TCNT0 = 0x00)
-#define ENABLE_UART_TIMER_INTERRUPT()           (TIMSK |= (1<<OCIE0))
-#define DISABLE_UART_TIMER_INTERRUPT()          (TIMSK &= ~(1<<OCIE0))
-#define CLEAR_UART_TIMER_INTERRUPT_FLAG()       (TIFR = (1<<OCF0))
+#define ENABLE_UART_TIMER_INTERRUPT()           (TIMSK0 |= (1<<OCIE0A))
+#define DISABLE_UART_TIMER_INTERRUPT()          (TIMSK0 &= ~(1<<OCIE0A))
+#define CLEAR_UART_TIMER_INTERRUPT_FLAG()       (TIFR0 = (1<<OCF0A))
 
 /* External interrupt macros. These are device dependent. */
 #define INITIALIZE_UART_EXTERNAL_INTERRUPT()    (MCUCR |= (1<<ISC01))   //< Sets falling edge of INT0 generates interrupt.
-#define ENABLE_UART_EXTERNAL_INTERRUPT()        (GICR |= (1<<INT0))
-#define DISABLE_UART_EXTERNAL_INTERRUPT()       (GICR &= ~(1<<INT0))
-#define CLEAR_UART_EXTERNAL_INTERRUPT_FLAG()    (GIFR = (1<<INTF0))
+#define ENABLE_UART_EXTERNAL_INTERRUPT()        (EIMSK |= (1<<INT0))
+#define DISABLE_UART_EXTERNAL_INTERRUPT()       (EIMSK &= ~(1<<INT0))
+#define CLEAR_UART_EXTERNAL_INTERRUPT_FLAG()    (EIFR = (1<<INTF0))
 
 /* Status register defines. */
 #define SW_UART_TX_BUFFER_FULL        4     //!< Set if data is ready to be sent from the Tx buffer.

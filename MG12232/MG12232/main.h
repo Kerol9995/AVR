@@ -17,6 +17,7 @@
 #include "adc.h"
 #include "timer0.h"
 #include "usartsoft.h"
+#include "single_wire_UART.h"
 
 unsigned int adc_value;
 

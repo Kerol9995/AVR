@@ -10,9 +10,8 @@ char str1[64];
 // float n=0;
 float Cppm=0;
 unsigned int b;
-uint8_t CO2_read[9]={0};	//= {0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
+uint8_t CO2_read[9]= {0xff, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
 uint8_t CO2_data[9]={0};
-
 	
 
 // ISR(TIMER0_OVF_vect){
@@ -22,11 +21,14 @@ uint8_t CO2_data[9]={0};
 
 int main(void)
 {
-// 	adc_value=0;
+	portbhistory=0xff;
+	adc_value=0;
 // 	USART_ini(MYUBRR);
 // 	timer0_init();
-// 	mg12232_init();
-// 	adc_init();
+	mg12232_init();
+	adc_init();
+	
+// 	SW_UART_Enable();
 
 	uint8_t co2_d = 0;
 	usartsoft_init();
@@ -60,8 +62,8 @@ int main(void)
 // 	}
     while (1) 
     {
-// 		sei();
-// 		clear_lcd();
+		sei();
+		clear_lcd();
 // 		
 // // 		for(i=1;i<=Dev_Cnt;i++)
 // // 		{
@@ -105,11 +107,11 @@ int main(void)
 // 			}			
 // 		}
 // 		
-// 		adc_value=adc_convert();
-// 		Cppm=(adc_value-82)*15.167236;			//4.854*3.125
-// 		dht11_start();
-// 		sprintf(str1,"T=%d  H=%d ADC=%.f \r\n", dht11_temp()+3, dht11_humid(), Cppm);
-// 		mg12232_string_write(str1, 0);
+		adc_value=adc_convert();
+		Cppm=(adc_value-82)*15.167236;			//4.854*3.125
+		dht11_start();
+		sprintf(str1,"T=%d  H=%d ADC=%.f \r\n", dht11_temp()+3, dht11_humid(), Cppm);
+		mg12232_string_write(str1, 0);
 // // 		for (a=0;a<strlen(str1);a++)USART_Transmit(str1[a]);
 // 		
 // 		if (usartsoft_recieve(&co2_d)>=0)
@@ -117,18 +119,14 @@ int main(void)
 // 			usartsoft_transmit(co2_d);
 // 		}
 // 		uint8_t CO2_read[9]= {65, 66, 66, 66, 66, 66, 66, 66, 67};
-// 		for (a=0;a<9;a++)usartsoft_transmit(CO2_data[a]+65);
-// 		
-		if (usartsoft_recieve(&co2_d)>=0)
-		{
-			usartsoft_transmit(co2_d);
-		}
+		sei();
+		for (a=0;a<9;a++)usartsoft_transmit(CO2_read[a]);
+		for (a=0;a<9;a++)CO2_data[a]=usartsoft_recieve(&co2_d);
 		
 // 		usartsoft_transmit(co2_d);
-// 		for (a=0;a<8;a++)usartsoft_transmit(CO2_data[a]);
-// 		printf(str1," %x %x %x %x %x %x %x %x %x ", CO2_data[0], CO2_data[1], CO2_data[2], CO2_data[3], CO2_data[4], CO2_data[5], CO2_data[6], CO2_data[7], CO2_data[8]);
-// 		mg12232_string_write(str1, 1);
+		sprintf(str1," %x %x %x %x %x %x %x %x %x ", CO2_data[0], CO2_data[1], CO2_data[2], CO2_data[3], CO2_data[4], CO2_data[5], CO2_data[6], CO2_data[7], CO2_data[8]);
+		mg12232_string_write(str1, 1);
 // 						
-// 		_delay_ms(3000);
+		_delay_ms(3000);
     }
 }

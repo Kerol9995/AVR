@@ -35,6 +35,7 @@
 *	Ниже идут объявления глобальных переменных и функций для работы UART
 */
 
+volatile uint8_t portbhistory;
 volatile uint16_t txbyte;
 volatile uint8_t rxbyte;
 volatile uint8_t txbitcount;

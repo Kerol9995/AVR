@@ -156,6 +156,12 @@
     <Compile Include="adc.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="single_wire_UART.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="single_wire_UART.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="timer0.c">
       <SubType>compile</SubType>
     </Compile>
