@@ -23,11 +23,11 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000002ac  00000000  00000000  00005254  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000059f  00000000  00000000  00005500  2**0
+ 10 .debug_str    000005c2  00000000  00000000  00005500  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000154f  00000000  00000000  00005a9f  2**0
+ 11 .debug_loc    0000154f  00000000  00000000  00005ac2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000d0  00000000  00000000  00006fee  2**0
+ 12 .debug_ranges 000000d0  00000000  00000000  00007011  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1615,11 +1615,11 @@ ISR(TIMER0_COMPB_vect)
      aa0:	aa 9a       	sbi	0x15, 2	; 21
 		PCIFR |= (1 << PCIF0);		// Очищаем флаг прерывания по INT0
      aa2:	d8 9a       	sbi	0x1b, 0	; 27
-		PCMSK0 |= (1 << PCINT5);		// Разрешаем прерывание INT0
-     aa4:	eb e6       	ldi	r30, 0x6B	; 107
+		PCICR |= (1 << PCINT0);		// Разрешаем прерывание INT0
+     aa4:	e8 e6       	ldi	r30, 0x68	; 104
      aa6:	f0 e0       	ldi	r31, 0x00	; 0
      aa8:	80 81       	ld	r24, Z
-     aaa:	80 62       	ori	r24, 0x20	; 32
+     aaa:	81 60       	ori	r24, 0x01	; 1
      aac:	80 83       	st	Z, r24
      aae:	05 c0       	rjmp	.+10     	; 0xaba <__vector_15+0x50>
 	}
@@ -1831,11 +1831,11 @@ void usartsoft_init()
      bc2:	80 81       	ld	r24, Z
      bc4:	81 60       	ori	r24, 0x01	; 1
      bc6:	80 83       	st	Z, r24
-	PCMSK0 |= (1 << PCINT0);	// Выбираем вывод PCINT5; PCINT[7:0]
+	PCMSK0 |= (1 << PCINT5);	
      bc8:	eb e6       	ldi	r30, 0x6B	; 107
      bca:	f0 e0       	ldi	r31, 0x00	; 0
      bcc:	80 81       	ld	r24, Z
-     bce:	81 60       	ori	r24, 0x01	; 1
+     bce:	80 62       	ori	r24, 0x20	; 32
      bd0:	80 83       	st	Z, r24
 	sei();						// Разрешаем прерывания глобально
      bd2:	78 94       	sei

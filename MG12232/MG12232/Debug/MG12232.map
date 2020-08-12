@@ -904,7 +904,7 @@ END GROUP
  .debug_frame   0x000000fc       0xdc mg12232.o
  .debug_frame   0x000001d8       0xd4 usartsoft.o
 
-.debug_str      0x00000000      0x59f
+.debug_str      0x00000000      0x5c2
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.2.209/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208      0x18a adc.o
@@ -915,7 +915,7 @@ END GROUP
                                 0x2c2 (size before relaxing)
  .debug_str     0x00000504       0x5b mg12232.o
                                 0x21b (size before relaxing)
- .debug_str     0x0000055f       0x40 usartsoft.o
+ .debug_str     0x0000055f       0x63 usartsoft.o
                                 0x202 (size before relaxing)
 
 .debug_loc      0x00000000     0x154f
